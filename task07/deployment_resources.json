@@ -14,7 +14,12 @@
             "dynamodb:DeleteItem",
             "ssm:PutParameter",
             "ssm:GetParameter",
-            "kms:Decrypt"
+            "kms:Decrypt",
+            "dynamodb:GetItem",
+            "dynamodb:Query",
+            "dynamodb:PutItem",
+            "dynamodb:Batch*",
+            "dynamodb:DeleteItem"
           ],
           "Effect": "Allow",
           "Resource": "*"
@@ -27,7 +32,7 @@
   },
   "Events": {
     "resource_type": "dynamodb_table",
-    "hash_key_name": "mykey",
+    "hash_key_name": "id",
     "hash_key_type": "S",
     "read_capacity": 1,
     "write_capacity": 1,
@@ -35,11 +40,13 @@
     "autoscaling": [],
     "tags": {}
   },
-  "admin": {
+  "appsync_role": {
     "resource_type": "iam_role",
-    "principal_service": "admin",
+    "principal_service": "appsync",
     "predefined_policies": [],
-    "custom_policies": [],
+    "custom_policies": [
+      "lambda-basic-execution"
+    ],
     "allowed_accounts": [],
     "instance_profile": false,
     "permissions_boundary": "",
